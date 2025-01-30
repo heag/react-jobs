@@ -1,32 +1,18 @@
 // import { useState, useEffect } from "react";
-import { useParams, useLoaderData } from "react-router-dom";
 import { FaArrowLeft, FaMapMarker } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 
-const JobPage = () => {
-  /* USING useEffect
-  //   const { id } = useParams();
-  //   const [job, setJob] = useState(null);
-  //   const [loading, setLoading] = useState(true);
+const JobPage = ({ deleteJob }) => {
+  const navigate = useNavigate();
 
-  //   useEffect(() => {
-  //     const fetchJob = async () => {
-  //       try {
-  //         const res = await fetch(`/api/jobs/${id}`);
-  //         const data = await res.json();
-  //         setJob(data);
-  //         console.log(data);
-  //       } catch (error) {
-  //         console.log("Error fetching data", error);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
+  const onDeleteClick = (jobId) => {
+    const confirm = window.confirm("Delete Job?");
+    if (!confirm) return;
 
-  //     fetchJob();
-  //   }, []); */
+    deleteJob(jobId);
+    return navigate("/jobs");
+  };
 
-  // USING loaderData
   const job = useLoaderData();
 
   return (
@@ -101,7 +87,10 @@ const JobPage = () => {
                 >
                   Edit Job
                 </Link>
-                <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block">
+                <button
+                  onClick={() => onDeleteClick(job.id)}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
+                >
                   Delete Job
                 </button>
               </div>
